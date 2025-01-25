@@ -1,12 +1,14 @@
 def main():
     with open("books/frankenstein.txt") as f:
         file_contents = f.read()
-    wordcount(file_contents)
-    lettercounter(file_contents)
+    total = wordcount(file_contents)
+    letter_counter = lettercounter(file_contents)
+    char_list = charsort(letter_counter)
+    report(total, char_list)
 
 def wordcount(words):
     split_string = words.split()
-    print(f"Frankenstein has {len(split_string)} words in it.")
+    return len(split_string)
 
 def lettercounter(file_contents):
     lower_case = file_contents.lower()
@@ -23,5 +25,24 @@ def lettercounter(file_contents):
             if s == char:
                 counter += 1
         alphabet[char] = counter
-    print(alphabet)
+    return alphabet
+
+def charsort(dict):
+    list = []
+    for i in dict:
+        if i.isalpha():
+            new_dict = {"letter": i, "number":dict[i]}
+            list.append(new_dict)
+    list.sort(reverse=True, key=sort_on)
+    return list
+
+def sort_on(dict):
+    return dict["number"]
+
+def report(wc, list):
+    print("--- Begin report of books/frankenstein.txt ---")
+    print(f"The book 'Frankenstein' has {wc} words in it.")
+    print("---Character Counter---")
+    for d in list:
+        print(f"The letter '{d["letter"]}' appears '{d["number"]}' times.")
 main()
